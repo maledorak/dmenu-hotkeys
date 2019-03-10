@@ -33,10 +33,10 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Youin 'dmenu' style.",
+    description="Your hotkeys for various apps in 'dmenu' style.",
     entry_points={
         'console_scripts': [
-            'dmenu_hotkeys=dmenu_hotkeys.cli:main',
+            'dmenu_hotkeys=dmenu_hotkeys.__main__:main',
         ],
     },
     install_requires=requirements,
@@ -50,6 +50,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/maledorak/dmenu_hotkeys',
-    version='1.0.0',
+    version='1.0.1',
     zip_safe=False,
 )
