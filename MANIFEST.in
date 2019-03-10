@@ -3,9 +3,12 @@ include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
+include dmenu_hotkeys/config.cfg
+
 
 recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
+recursive-include dmenu_hotkeys *.cfg
 recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
