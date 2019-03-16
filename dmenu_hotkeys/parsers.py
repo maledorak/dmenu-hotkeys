@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+
 class BaseConfigParser(object):
     def parse_hotkey(self, line):
         """
