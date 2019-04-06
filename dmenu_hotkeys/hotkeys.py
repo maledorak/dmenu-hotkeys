@@ -1,7 +1,6 @@
 # import dmenu_hotkeys.config as config
 import os
 from re import compile
-
 from dmenu_hotkeys import constans as const
 from dmenu_hotkeys.config import get_config, get_config2
 from dmenu_hotkeys.parsers import BaseConfigParser
@@ -23,7 +22,6 @@ class HotKeys(object):
     def __init__(self, app):
         self.app = app
         self.cfg = get_config()
-        self.cfg2 = get_config2()
         self.parser = self.get_parser(app)()
         self.content = self.get_config_file_content()
         self.entries = self.get_entries(self.content)
@@ -40,13 +38,11 @@ class HotKeys(object):
         :param path: string with path to your app config file
         :return: string
         """
-        paths = os.path.join(os.path.join(os.environ.get("HOME"), self.cfg2.get("APP_CONF_PATHS", self.app))).split(",")
-        for path in paths:
-            try:
-                with open(path, "r") as file_:
-                    content = file_.read()
-            except FileNotFoundError:
-                pass
+        paths = os.path.join(os.path.join(os.environ.get("HOME"), self.cfg.get("APP_CONF_PATHS", self.app))).replace(' ','').split(",")
+
+        valid_path = [a_path for a_path in paths if os.path.isfile(a_path)][0]
+        with open(valid_path, "r") as file_:
+            content = file_.read()
         return content
 
     def get_entries(self, content):
