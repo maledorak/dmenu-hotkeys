@@ -3,7 +3,6 @@ import os
 from re import compile
 
 from dmenu_hotkeys import constans as const
-from dmenu_hotkeys.config import get_config
 from dmenu_hotkeys.parsers import BaseConfigParser
 
 
@@ -20,12 +19,12 @@ class HotKeys(object):
     `./dmenu_hotkeys.py openbox`
     """
 
-    def __init__(self, app):
+    def __init__(self, app, cfg):
         self.app = app
-        self.cfg = get_config()
+        self.cfg = cfg
         self.parser = self.get_parser(app)()
-        self.content = self.get_config_file_content()
-        self.entries = self.get_entries(self.content)
+        self.app_config = self.get_app_config()
+        self.entries = self.get_entries(self.app_config)
         self.output = self.format_entries(self.entries)
 
     def get_parser(self, app):
@@ -33,7 +32,7 @@ class HotKeys(object):
         parser = [subcls for subcls in BaseConfigParser.__subclasses__() if subcls.__name__ == app_parser_name][0]
         return parser
 
-    def get_config_file_content(self):
+    def get_app_config(self):
         """
         Getting content of app config file.
         :param path: string with path to your app config file
@@ -69,16 +68,24 @@ class HotKeys(object):
         :param entries: list of tuples, eg. [(hotkey, info), (hotkey, info)]
         :return: string
         """
+        output = list()
         if not entries:
             return ""
 
-        longest_hotkey = max(set(len(entry[0]) for entry in entries))
-        dots_length = longest_hotkey + int(self.cfg.get("OTHERS", "additional_dots"))
-        output = list()
-        for hotkey, info in entries:
-            output.append("{hotkey} {dots} {info}".format(
-                hotkey=hotkey,
-                dots="." * (dots_length - len(hotkey)),
-                info=info
-            ))
+        is_dots = bool(self.cfg.get("OTHERS", "dots"))
+        if is_dots:
+            longest_hotkey = max(set(len(entry[0]) for entry in entries))
+            dots_length = longest_hotkey + int(self.cfg.get("OTHERS", "additional_dots"))
+            for hotkey, info in entries:
+                output.append("{hotkey} {dots} {info}".format(
+                    hotkey=hotkey,
+                    dots="." * (dots_length - len(hotkey)),
+                    info=info
+                ))
+        else:
+            for hotkey, info in entries:
+                output.append("{hotkey}: {info}".format(
+                    hotkey=hotkey,
+                    info=info
+                ))
         return "\n".join(output)
