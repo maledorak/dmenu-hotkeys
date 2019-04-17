@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import sys
+
+PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+PROJECT_SOURCE_DIR = os.path.join(PROJECT_ROOT_DIR, 'dmenu_hotkeys')
+
+if os.path.exists(PROJECT_SOURCE_DIR):
+    if PROJECT_ROOT_DIR not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT_DIR)
+        os.putenv('PYTHONPATH', PROJECT_ROOT_DIR)
+
+from dmenu_hotkeys import cli
+
+if __name__ == '__main__':
+    sys.exit(cli.main())  # pragma: no cover
