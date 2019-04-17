@@ -27,4 +27,4 @@ class OpenBoxConfigParser(BaseConfigParser):
         :param line: string
         :return: string
         """
-        return line.split("\"")[1]
+        return line.split("\"")[1]  # todo add xml parser
