@@ -1,7 +1,9 @@
-#!/usr/bin/env python
-
 import unittest
-from unittest import mock
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from dmenu_hotkeys.utils import is_installed
 

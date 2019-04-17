@@ -11,7 +11,8 @@ class HotKeys(object):
     """
     Getting hotkeys info from your app config file.
     If you want use this script you should:
-    1. Add the following comment line before your hotkey line which you want to use in your app config
+    1. Add the following comment line before your hotkey line which you
+    want to use in your app config
     eg:
     `i3 line: # %%hotkey: Some description of the following hotkey %%`
     `openbox line: <--%%hotkey: Some description of the following hotkey %%-->`
@@ -30,7 +31,8 @@ class HotKeys(object):
 
     def get_parser(self, app):
         app_parser_name = const.PARSERS[app]
-        parser = [subcls for subcls in BaseConfigParser.__subclasses__() if subcls.__name__ == app_parser_name][0]
+        parser = [subcls for subcls in BaseConfigParser.__subclasses__() if
+                  subcls.__name__ == app_parser_name][0]
         return parser
 
     def get_config_file_content(self):
@@ -39,7 +41,9 @@ class HotKeys(object):
         :param path: string with path to your app config file
         :return: string
         """
-        path = os.path.join(os.path.join(os.environ.get("HOME"), self.cfg.get("APP_CONF_PATHS", self.app)))
+        path = os.path.join(
+            os.environ.get("HOME"),
+            self.cfg.get("APP_CONF_PATHS", self.app))
         with open(path, "r") as file_:
             content = file_.read()
         return content
@@ -51,7 +55,8 @@ class HotKeys(object):
         :return: list of tuples, eg. [(hotkey, info), (hotkey, info)]
         """
         regex_search = compile(r"^.*{start}([^%]+){end}.*$".format(
-            start=self.cfg.get("OTHERS", "start_pattern"), end=self.cfg.get("OTHERS", "end_pattern")))
+            start=self.cfg.get("OTHERS", "start_pattern"),
+            end=self.cfg.get("OTHERS", "end_pattern")))
         content_lines = content.splitlines()
         entries = list()
         for index, line in enumerate(content_lines):
@@ -65,7 +70,8 @@ class HotKeys(object):
 
     def format_entries(self, entries):
         """
-        Adding nice looking dots between "hotkey" and "info" and return entries in string.
+        Adding nice looking dots between "hotkey" and "info"
+        and return entries in string.
         :param entries: list of tuples, eg. [(hotkey, info), (hotkey, info)]
         :return: string
         """
@@ -73,7 +79,8 @@ class HotKeys(object):
             return ""
 
         longest_hotkey = max(set(len(entry[0]) for entry in entries))
-        dots_length = longest_hotkey + int(self.cfg.get("OTHERS", "additional_dots"))
+        dots_length = longest_hotkey + int(
+            self.cfg.get("OTHERS", "additional_dots"))
         output = list()
         for hotkey, info in entries:
             output.append("{hotkey} {dots} {info}".format(

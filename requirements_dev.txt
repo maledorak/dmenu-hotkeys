@@ -6,6 +6,5 @@ flake8==3.5.0
 tox==3.5.2
 coverage==4.5.1
 Sphinx==1.8.1
+importlib-resources==1.0.2 # for python < 3.7
 twine==1.12.1
-
-

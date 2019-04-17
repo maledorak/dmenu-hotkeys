@@ -1,5 +1,5 @@
 import sys
-from subprocess import Popen, run, PIPE
+from subprocess import Popen, PIPE, call
 
 import click
 
@@ -18,21 +18,25 @@ def install_validation(ctx, param, value):
             "menu": const.SUPPORTED_MENUS,
             "app": const.SUPPORTED_APPS
         }
-        error = "{}\nInstall one of supported: {}".format(error, support_map[param.name])
+        error = "{}\nInstall one of supported: {}".format(
+            error, support_map[param.name])
         raise click.UsageError(error)
 
 
 @click.command(help="Run hotkeys in menu.")
-@click.argument("menu", callback=install_validation, required=True, type=click.Choice(const.SUPPORTED_MENUS))
-@click.argument("app", callback=install_validation, required=True, type=click.Choice(const.SUPPORTED_APPS))
+@click.argument("menu", callback=install_validation,
+                required=True, type=click.Choice(const.SUPPORTED_MENUS))
+@click.argument("app", callback=install_validation,
+                required=True, type=click.Choice(const.SUPPORTED_APPS))
 def main(menu, app):
     cfg = get_config()
     hot_keys = HotKeys(app)
 
-    # subprocess piping was created based on: https://stackoverflow.com/a/4846923
+    # subprocess piping was created based on:
+    # https://stackoverflow.com/a/4846923
     echo = Popen(["echo", hot_keys.output], stdout=PIPE)
     menu_command = cfg.get("MENU_COMMAND", menu).split()
-    run(menu_command, stdin=echo.stdout)
+    call(menu_command, stdin=echo.stdout)
     echo.stdout.close()
     return 0
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import unittest
 
 from dmenu_hotkeys.parsers import BaseConfigParser, I3ConfigParser, OpenBoxConfigParser

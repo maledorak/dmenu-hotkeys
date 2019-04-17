@@ -1,7 +1,9 @@
-#!/usr/bin/env python
-
 import unittest
-from unittest import mock
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from click.testing import CliRunner
 
@@ -9,6 +11,7 @@ from dmenu_hotkeys.cli import main
 from dmenu_hotkeys.constans import DMENU, I3
 
 
+@mock.patch("dmenu_hotkeys.utils.find_executable", mock.Mock(return_value=True))
 class TestMainAndCheckArgumentsWhenEmpty(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
@@ -26,6 +29,7 @@ class TestMainAndCheckArgumentsWhenEmpty(unittest.TestCase):
         self.assertIn(expected_output, result.output)
 
 
+@mock.patch("dmenu_hotkeys.utils.find_executable", mock.Mock(return_value=True))
 class TestMainAndCheckArgumentsWhenInvalid(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
@@ -43,11 +47,11 @@ class TestMainAndCheckArgumentsWhenInvalid(unittest.TestCase):
         self.assertIn(expected_output, result.output)
 
 
+@mock.patch("dmenu_hotkeys.utils.find_executable")
 class TestMainAndCheckArgumentsWhenInstallNotValidated(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
 
-    @mock.patch("dmenu_hotkeys.utils.find_executable")
     def test_main_check_menu_argument_when_fail_install_validation(self, find_executable_mock):
         find_executable_mock.side_effect = [False, False]  # menu, app
         result = self.runner.invoke(main, args=[DMENU, I3])
@@ -57,7 +61,6 @@ class TestMainAndCheckArgumentsWhenInstallNotValidated(unittest.TestCase):
         self.assertIn(expected_output_1, result.output)
         self.assertIn(expected_output_2, result.output)
 
-    @mock.patch("dmenu_hotkeys.utils.find_executable")
     def test_main_check_app_argument_when_fail_install_validation(self, find_executable_mock):
         find_executable_mock.side_effect = [True, False]  # menu, app
         result = self.runner.invoke(main, args=[DMENU, I3])
