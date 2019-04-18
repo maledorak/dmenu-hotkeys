@@ -24,10 +24,10 @@ def install_validation(ctx, param, value):
 
 
 @click.command(help="Run hotkeys in menu.")
-@click.argument("menu", callback=install_validation,
-                required=True, type=click.Choice(const.SUPPORTED_MENUS))
-@click.argument("app", callback=install_validation,
-                required=True, type=click.Choice(const.SUPPORTED_APPS))
+@click.option("-m", "--menu", callback=install_validation,
+              required=True, type=click.Choice(const.SUPPORTED_MENUS))
+@click.option("-a", "--app", callback=install_validation,
+              required=True, type=click.Choice(const.SUPPORTED_APPS))
 def main(menu, app):
     cfg = get_config()
     hot_keys = HotKeys(app)
