@@ -11,11 +11,16 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = [
+    'Click>=7.0',
+    'importlib_resources>=1.0.0'
+]
 
 setup_requirements = [ ]
 
-test_requirements = [ ]
+test_requirements = [
+    "mock"
+]
 
 setup(
     author="Mariusz Korzekwa",
@@ -25,7 +30,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
@@ -36,9 +41,10 @@ setup(
     description="Your hotkeys for various apps in 'dmenu' style.",
     entry_points={
         'console_scripts': [
-            'dmenu_hotkeys=dmenu_hotkeys.__main__:main',
+            'dmenu_hotkeys=dmenu_hotkeys.cli:main',
         ],
     },
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
     install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
@@ -47,7 +53,6 @@ setup(
     name='dmenu_hotkeys',
     packages=find_packages(include=['dmenu_hotkeys']),
     setup_requires=setup_requirements,
-    test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/maledorak/dmenu_hotkeys',
     version='1.0.2',
