@@ -9,6 +9,11 @@ from dmenu_hotkeys.hotkeys import HotKeys
 from dmenu_hotkeys.utils import is_installed
 
 
+@click.group()
+def main():
+    pass
+
+
 def install_validation(ctx, param, value):
     try:
         is_installed(value)
@@ -23,12 +28,12 @@ def install_validation(ctx, param, value):
         raise click.UsageError(error)
 
 
-@click.command(help="Run hotkeys in menu.")
+@click.command(help="Run dmenu_hotkeys.")
 @click.option("-m", "--menu", callback=install_validation,
               required=True, type=click.Choice(const.SUPPORTED_MENUS))
 @click.option("-a", "--app", callback=install_validation,
               required=True, type=click.Choice(const.SUPPORTED_APPS))
-def main(menu, app):
+def run(menu, app):
     cfg = get_config()
     hot_keys = HotKeys(app)
 
@@ -40,6 +45,8 @@ def main(menu, app):
     echo.stdout.close()
     return 0
 
+
+main.add_command(run)
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
