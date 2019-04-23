@@ -13,7 +13,8 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=7.0',
-    'importlib_resources>=1.0.0'
+    'importlib_resources>=1.0.0',
+    'pathlib2'
 ]
 
 setup_requirements = [ ]

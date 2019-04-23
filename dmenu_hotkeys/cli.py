@@ -1,3 +1,5 @@
+import os
+import shutil
 import sys
 from subprocess import Popen, PIPE, call
 
@@ -7,6 +9,13 @@ from dmenu_hotkeys import constans as const
 from dmenu_hotkeys.config import get_config
 from dmenu_hotkeys.hotkeys import HotKeys
 from dmenu_hotkeys.utils import is_installed
+
+if sys.version_info < (3, 5):
+    # noinspection PyUnresolvedReferences
+    # python <= 3.4 backport (mkdir exist_ok param is from py35)
+    from pathlib2 import Path
+else:
+    from pathlib import Path
 
 
 @click.group()
@@ -46,6 +55,23 @@ def run(menu, app):
     return 0
 
 
+@click.command(help="Copy dmenu_hotkeys config to ~/.config")
+@click.option("-d", "--dest", required=False, type=click.Path())
+def copy_config(dest=None):
+    src = const.SRC_CONF_PATH
+    dest = dest or const.USER_CONF_PATH
+    dest_dir = os.path.dirname(dest)
+    if os.path.exists(dest):
+        raise click.UsageError("Config already exists in {}".format(dest))
+    else:
+        if not os.path.exists(dest_dir):
+            click.echo("Create config directory in {}".format(dest_dir))
+            Path(dest_dir).mkdir(parents=True, exist_ok=True)
+        click.echo("Creating config in {}".format(dest))
+        shutil.copy(src, dest)
+
+
+main.add_command(copy_config)
 main.add_command(run)
 
 if __name__ == "__main__":
