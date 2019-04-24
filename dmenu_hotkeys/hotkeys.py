@@ -41,9 +41,7 @@ class HotKeys(object):
         :param path: string with path to your app config file
         :return: string
         """
-        path = os.path.join(
-            os.environ.get("HOME"),
-            self.cfg.get("APP_CONF_PATHS", self.app))
+        path = os.path.expandvars(self.cfg.get("APP_CONF_PATHS", self.app))
         with open(path, "r") as file_:
             content = file_.read()
         return content
