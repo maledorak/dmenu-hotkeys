@@ -1,6 +1,9 @@
 import unittest
 
-from dmenu_hotkeys.parsers import BaseConfigParser, I3ConfigParser, OpenBoxConfigParser
+from dmenu_hotkeys.constans import PARSERS
+from dmenu_hotkeys.parsers import (
+    BaseConfigParser, I3ConfigParser, OpenBoxConfigParser, get_parser
+)
 
 
 class TestBaseConfigParser(unittest.TestCase):
@@ -28,3 +31,10 @@ class TestOpenBoxConfigParser(unittest.TestCase):
     def test_parse_hotkey(self):
         parser = OpenBoxConfigParser()
         self.assertEqual(parser.parse_hotkey(self.line), "A-F4")
+
+
+class TestGetParserGenericTest(unittest.TestCase):
+    def test_get_parser(self):
+        for app, parser_name in PARSERS.items():
+            parser = get_parser(app)
+            self.assertEqual(parser.__class__.__name__, parser_name)
