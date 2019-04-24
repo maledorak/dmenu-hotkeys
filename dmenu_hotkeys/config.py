@@ -1,16 +1,18 @@
+import os
+
+from dmenu_hotkeys.constans import USER_CONF_PATH, SRC_CONF_PATH
+
 try:
     from configparser import ConfigParser
 except ImportError:
     # noinspection PyUnresolvedReferences
     from ConfigParser import ConfigParser
 
-try:
-    from importlib import resources
-except ImportError:  # for python lower than 3.7
-    import importlib_resources as resources
-
 
 def get_config():
     cfg = ConfigParser()
-    cfg.read_string(resources.read_text("dmenu_hotkeys", "config.cfg"))
+    if os.path.exists(USER_CONF_PATH):
+        cfg.read(USER_CONF_PATH)
+    else:
+        cfg.read(SRC_CONF_PATH)
     return cfg
