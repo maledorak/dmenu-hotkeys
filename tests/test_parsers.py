@@ -1,6 +1,6 @@
 import unittest
 
-from dmenu_hotkeys.constans import PARSERS
+from dmenu_hotkeys.constants import PARSERS
 from dmenu_hotkeys.parsers import (
     BaseConfigParser, I3ConfigParser, OpenBoxConfigParser, get_parser
 )

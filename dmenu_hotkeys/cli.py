@@ -6,8 +6,9 @@ from subprocess import Popen, PIPE, call
 import click
 
 from dmenu_hotkeys.config import get_config
-from dmenu_hotkeys.constans import (
-    SUPPORTED_MENUS, SUPPORTED_APPS, SRC_CONF_PATH, USER_CONF_PATH
+from dmenu_hotkeys.constants import (
+    SUPPORTED_MENUS, SUPPORTED_APPS, DMENU_HOTKEYS_CONFIG_PATH,
+    USER_CONFIG_PATH
 )
 from dmenu_hotkeys.hotkeys import HotKeys
 from dmenu_hotkeys.utils import is_installed
@@ -60,8 +61,8 @@ def run(menu, app):
 @click.command(help="Copy dmenu_hotkeys config to ~/.config")
 @click.option("-d", "--dest", required=False, type=click.Path())
 def copy_config(dest=None):
-    src = SRC_CONF_PATH
-    dest = dest or USER_CONF_PATH
+    src = DMENU_HOTKEYS_CONFIG_PATH
+    dest = dest or USER_CONFIG_PATH
     dest_dir = os.path.dirname(dest)
     if os.path.exists(dest):
         raise click.UsageError("Config already exists in {}".format(dest))

@@ -1,6 +1,8 @@
 import os
 
-from dmenu_hotkeys.constans import USER_CONF_PATH, SRC_CONF_PATH
+from dmenu_hotkeys.constants import (
+    USER_CONFIG_PATH, DMENU_HOTKEYS_CONFIG_PATH
+)
 from dmenu_hotkeys.utils import _Singleton
 
 try:
@@ -13,10 +15,10 @@ except ImportError:
 class Config(_Singleton('SingletonMeta', (object,), {})):
     def __init__(self):
         cfg = ConfigParser()
-        if os.path.exists(USER_CONF_PATH):
-            cfg.read(USER_CONF_PATH)
+        if os.path.exists(USER_CONFIG_PATH):
+            cfg.read(USER_CONFIG_PATH)
         else:
-            cfg.read(SRC_CONF_PATH)
+            cfg.read(DMENU_HOTKEYS_CONFIG_PATH)
         self.cfg = cfg
 
     def get_config(self):

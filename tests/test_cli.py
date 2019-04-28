@@ -13,7 +13,9 @@ except ImportError:
 from click.testing import CliRunner
 
 from dmenu_hotkeys.cli import run, copy_config
-from dmenu_hotkeys.constans import DMENU, I3, SRC_CONF_PATH
+from dmenu_hotkeys.constants import (
+    DMENU, I3, DMENU_HOTKEYS_CONFIG_PATH
+)
 
 
 @mock.patch("dmenu_hotkeys.utils.find_executable", mock.Mock(return_value=True))
@@ -93,19 +95,20 @@ class TestCopyConfig(TempDirTestCase):
         self.assertIn(expected_output_1, result.output)
         self.assertIn(expected_output_2, result.output)
         self.assertEqual(result.exit_code, 0)
-        self.assertTrue(filecmp.cmp(SRC_CONF_PATH, self.dest))
+        self.assertTrue(filecmp.cmp(DMENU_HOTKEYS_CONFIG_PATH, self.dest))
 
     def test_copy_config_when_there_is_no_destination_file(self):
         result = self.runner.invoke(copy_config, args=["--dest", self.dest])
-        expected_output_1 = 'Create config directory in {}'.format(self.TEMP_DIR)
+        expected_output_1 = 'Create config directory in {}'.format(
+            self.TEMP_DIR)
         expected_output_2 = 'Creating config in {}'.format(self.dest)
         self.assertNotIn(expected_output_1, result.output)
         self.assertIn(expected_output_2, result.output)
         self.assertEqual(result.exit_code, 0)
-        self.assertTrue(filecmp.cmp(SRC_CONF_PATH, self.dest))
+        self.assertTrue(filecmp.cmp(DMENU_HOTKEYS_CONFIG_PATH, self.dest))
 
     def test_copy_config_when_there_is_destination_file(self):
-        shutil.copy(SRC_CONF_PATH, self.dest)
+        shutil.copy(DMENU_HOTKEYS_CONFIG_PATH, self.dest)
         result = self.runner.invoke(copy_config, args=["--dest", self.dest])
         self.assertEqual(result.exit_code, 2)
         expected_output = 'Config already exists in {}'.format(self.dest)
