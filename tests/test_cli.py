@@ -1,14 +1,8 @@
 import filecmp
 import os
 import shutil
+import sys
 import unittest
-
-from tests.utils import TempDirTestCase
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 
 from click.testing import CliRunner
 
@@ -16,10 +10,23 @@ from dmenu_hotkeys.cli import run, copy_config
 from dmenu_hotkeys.constants import (
     DMENU, I3, DMENU_HOTKEYS_CONFIG_PATH
 )
+from tests.utils import TempDirTestCase
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
+
+if sys.version_info < (3, 5):
+    # noinspection PyUnresolvedReferences
+    # python <= 3.4 backport (mkdir exist_ok param is from py35)
+    from pathlib2 import Path
+else:
+    from pathlib import Path
 
 
 @mock.patch("dmenu_hotkeys.utils.find_executable", mock.Mock(return_value=True))
-class TestRunAndCheckOptionWhenEmpty(unittest.TestCase):
+class TestRunAndCheckRequiredOptionWhenEmpty(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
 
@@ -37,7 +44,7 @@ class TestRunAndCheckOptionWhenEmpty(unittest.TestCase):
 
 
 @mock.patch("dmenu_hotkeys.utils.find_executable", mock.Mock(return_value=True))
-class TestRunAndCheckOptionWhenInvalid(unittest.TestCase):
+class TestRunAndCheckRequiredOptionWhenInvalid(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
 
@@ -54,8 +61,42 @@ class TestRunAndCheckOptionWhenInvalid(unittest.TestCase):
         self.assertIn(expected_output, result.output)
 
 
+@mock.patch("dmenu_hotkeys.utils.find_executable", mock.Mock(return_value=True))
+class TestRunAndCheckConfigPathOption(TempDirTestCase):
+    def setUp(self):
+        super(TestRunAndCheckConfigPathOption, self).setUp()
+        self.runner = CliRunner()
+
+    def test_run_command_and_check_config_option_when_dir(self):
+        path = self.TEMP_DIR
+        result = self.runner.invoke(
+            run, args=["--menu", DMENU, "--app", I3, '--config-path', path])
+        self.assertEqual(result.exit_code, 2)
+        expected_output_1 = 'Error: Invalid value for "-cp" / "--config-path"'
+        expected_output_2 = 'is a directory.'
+        self.assertIn(expected_output_1, result.output)
+        self.assertIn(expected_output_2, result.output)
+
+    def test_run_command_and_check_config_option_when_file_exists(self):
+        path = os.path.join(self.TEMP_DIR, 'some_config.cfg')
+        Path(path).touch()
+        result = self.runner.invoke(
+            run, args=["--menu", DMENU, "--app", I3, '--config-path', path])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_run_command_and_check_config_option_when_file_not_exists(self):
+        path = os.path.join(self.TEMP_DIR, 'some_config.cfg')
+        result = self.runner.invoke(
+            run, args=["--menu", DMENU, "--app", I3, '--config-path', path])
+        self.assertEqual(result.exit_code, 2)
+        expected_output_1 = 'Error: Invalid value for "-cp" / "--config-path"'
+        expected_output_2 = 'does not exist'
+        self.assertIn(expected_output_1, result.output)
+        self.assertIn(expected_output_2, result.output)
+
+
 @mock.patch("dmenu_hotkeys.utils.find_executable")
-class TestRunAndCheckArgumentsWhenInstallNotValidated(unittest.TestCase):
+class TestRunAndCheckRequiredOptionWhenInstallNotValidated(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
 

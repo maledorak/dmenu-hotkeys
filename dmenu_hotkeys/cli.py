@@ -5,7 +5,7 @@ from subprocess import Popen, PIPE, call
 
 import click
 
-from dmenu_hotkeys.config import get_config
+from dmenu_hotkeys.config import init_config
 from dmenu_hotkeys.constants import (
     SUPPORTED_MENUS, SUPPORTED_APPS, DMENU_HOTKEYS_CONFIG_PATH,
     USER_CONFIG_PATH
@@ -45,8 +45,10 @@ def install_validation(ctx, param, value):
               required=True, type=click.Choice(SUPPORTED_MENUS))
 @click.option("-a", "--app", callback=install_validation,
               required=True, type=click.Choice(SUPPORTED_APPS))
-def run(menu, app):
-    config = get_config()
+@click.option("-cp", "--config-path", required=False,
+              type=click.Path(exists=True, file_okay=True, dir_okay=False))
+def run(menu, app, config_path):
+    config = init_config(config_path)
     hot_keys = HotKeys(app)
 
     # subprocess piping was created based on:

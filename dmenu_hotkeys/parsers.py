@@ -1,4 +1,4 @@
-from dmenu_hotkeys.constans import PARSERS
+from dmenu_hotkeys.constants import PARSERS
 
 
 class BaseConfigParser(object):
@@ -33,13 +33,13 @@ class OpenBoxConfigParser(BaseConfigParser):
         return line.split("\"")[1]  # todo add xml parser
 
 
-def get_parser(app):
+def get_parser(app_name):
     """
     Return parser based on app name.
-    :param app: String
+    :param app_name: String
     :return: parser object
     """
-    app_parser_name = PARSERS[app]
+    app_parser_name = PARSERS[app_name]
     parser = [subcls for subcls in BaseConfigParser.__subclasses__() if
               subcls.__name__ == app_parser_name][0]
     return parser()  # return parser object instead of class

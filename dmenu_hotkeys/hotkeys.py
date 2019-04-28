@@ -2,7 +2,7 @@
 import os
 from re import compile
 
-from dmenu_hotkeys import constans as const
+from dmenu_hotkeys.constants import PARSERS
 from dmenu_hotkeys.config import get_config
 from dmenu_hotkeys.parsers import BaseConfigParser
 
@@ -30,7 +30,7 @@ class HotKeys(object):
         self.output = self.format_entries(self.entries)
 
     def get_parser(self, app):
-        app_parser_name = const.PARSERS[app]
+        app_parser_name = PARSERS[app]
         parser = [subcls for subcls in BaseConfigParser.__subclasses__() if
                   subcls.__name__ == app_parser_name][0]
         return parser
