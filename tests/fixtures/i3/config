@@ -1,0 +1,12 @@
+# %%hotkey: Add todoist task %%
+bindsym $mod+q                  exec --no-startup-id dmenu_todoist_add
+# %%hotkey: Kill current app %%
+bindsym $mod+Shift+q		    kill
+
+# %%hotkey: Show all containers in rofi %%
+bindsym $mod+w                  exec --no-startup-id rofi -show window
+#bindsym $mod+Shift+w           exec $term -e sudo wifi-menu
+
+# %%hotkey: Dmenu emoji %%
+bindsym $mod+e                  exec --no-startup-id dmenu_emoji
+#bindsym $mod+Shift+e

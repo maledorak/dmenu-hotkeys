@@ -57,7 +57,6 @@ def run(menu, app, config_path):
     menu_command = config.get("MENU_COMMAND", menu).split()
     call(menu_command, stdin=echo.stdout)
     echo.stdout.close()
-    return 0
 
 
 @click.command(help="Copy dmenu_hotkeys config to ~/.config")
