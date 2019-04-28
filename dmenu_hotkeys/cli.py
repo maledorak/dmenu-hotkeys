@@ -5,8 +5,11 @@ from subprocess import Popen, PIPE, call
 
 import click
 
-from dmenu_hotkeys import constans as const
-from dmenu_hotkeys.config import get_config
+from dmenu_hotkeys.config import init_config
+from dmenu_hotkeys.constants import (
+    SUPPORTED_MENUS, SUPPORTED_APPS, DMENU_HOTKEYS_CONFIG_PATH,
+    USER_CONFIG_PATH
+)
 from dmenu_hotkeys.hotkeys import HotKeys
 from dmenu_hotkeys.utils import is_installed
 
@@ -29,8 +32,8 @@ def install_validation(ctx, param, value):
         return value
     except SystemError as error:
         support_map = {
-            "menu": const.SUPPORTED_MENUS,
-            "app": const.SUPPORTED_APPS
+            "menu": SUPPORTED_MENUS,
+            "app": SUPPORTED_APPS
         }
         error = "{}\nInstall one of supported: {}".format(
             error, support_map[param.name])
@@ -39,27 +42,28 @@ def install_validation(ctx, param, value):
 
 @click.command(help="Run dmenu_hotkeys.")
 @click.option("-m", "--menu", callback=install_validation,
-              required=True, type=click.Choice(const.SUPPORTED_MENUS))
+              required=True, type=click.Choice(SUPPORTED_MENUS))
 @click.option("-a", "--app", callback=install_validation,
-              required=True, type=click.Choice(const.SUPPORTED_APPS))
-def run(menu, app):
-    cfg = get_config()
+              required=True, type=click.Choice(SUPPORTED_APPS))
+@click.option("-cp", "--config-path", required=False,
+              type=click.Path(exists=True, file_okay=True, dir_okay=False))
+def run(menu, app, config_path):
+    config = init_config(config_path)
     hot_keys = HotKeys(app)
 
     # subprocess piping was created based on:
     # https://stackoverflow.com/a/4846923
     echo = Popen(["echo", hot_keys.output], stdout=PIPE)
-    menu_command = cfg.get("MENU_COMMAND", menu).split()
+    menu_command = config.get("MENU_COMMAND", menu).split()
     call(menu_command, stdin=echo.stdout)
     echo.stdout.close()
-    return 0
 
 
 @click.command(help="Copy dmenu_hotkeys config to ~/.config")
 @click.option("-d", "--dest", required=False, type=click.Path())
 def copy_config(dest=None):
-    src = const.SRC_CONF_PATH
-    dest = dest or const.USER_CONF_PATH
+    src = DMENU_HOTKEYS_CONFIG_PATH
+    dest = dest or USER_CONFIG_PATH
     dest_dir = os.path.dirname(dest)
     if os.path.exists(dest):
         raise click.UsageError("Config already exists in {}".format(dest))

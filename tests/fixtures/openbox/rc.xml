@@ -1,0 +1,17 @@
+<keyboard>
+    <!-- %%hotkey: Close container %% -->
+    <keybind key="A-F4">
+        <action name="Close"/>
+    </keybind>
+    <keybind key="A-Escape">
+        <action name="Lower"/>
+        <action name="FocusToBottom"/>
+        <action name="Unfocus"/>
+    </keybind>
+    <!-- %%hotkey: Show menu %% -->
+    <keybind key="A-space">
+        <action name="ShowMenu">
+            <menu>client-menu</menu>
+        </action>
+    </keybind>
+</keyboard>
