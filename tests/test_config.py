@@ -6,8 +6,8 @@ except ImportError:
     # noinspection PyUnresolvedReferences
     from ConfigParser import ConfigParser
 
-from dmenu_hotkeys.config import Config, get_config
-from dmenu_hotkeys.constants import DMENU_HOTKEYS_CONFIG_PATH
+from dmenu_hotkeys.config import Config, get_config, init_config
+from dmenu_hotkeys.constants import DMENU_HOTKEYS_CONFIG_PATH, TEST_CONFIG_PATH
 from tests.utils import TempDirTestCase
 
 try:
@@ -33,7 +33,14 @@ class TestConfig(TempDirTestCase):
             config2 = Config()
         self.assertEqual(config1, config2)
 
-    def test_get_config_when(self):
+    def test_get_config_when_arg_path_was_passed(self):
+        tested_config = Config(arg_path=TEST_CONFIG_PATH).get_config()
+        cfg = ConfigParser()
+        cfg.read(TEST_CONFIG_PATH)
+        expected_arg_path_conf = cfg._sections
+        self.assertDictEqual(tested_config._sections, expected_arg_path_conf)
+
+    def test_get_config_when_user_home_config_not_exists(self):
         self.assertFalse(os.path.exists(self.user_conf_path))
         # override user configuration path, to file which don't exist
         with mock.patch("dmenu_hotkeys.config.USER_CONFIG_PATH",
@@ -44,7 +51,7 @@ class TestConfig(TempDirTestCase):
         expected_config_from_src = cfg._sections
         self.assertDictEqual(tested_config_from_src, expected_config_from_src)
 
-    def test_get_config_when_user_config_exists(self):
+    def test_get_config_when_user_home_config_exists(self):
         self.assertFalse(os.path.exists(self.user_conf_path))
         cfg = ConfigParser()
         cfg.read(DMENU_HOTKEYS_CONFIG_PATH)
@@ -76,4 +83,22 @@ class TestGetConfig(TempDirTestCase):
                         self.user_conf_path):
             config1 = Config().get_config()
             config2 = get_config()
+        self.assertEqual(config1, config2)
+
+
+class TestInitConfig(TempDirTestCase):
+    def setUp(self):
+        super(TestInitConfig, self).setUp()
+        self.user_conf_path = os.path.join(self.TEMP_DIR, "config.cfg")
+
+    def tearDown(self):
+        super(TestInitConfig, self).tearDown()
+        Config._clean_singleton()  # clean singleton after every test
+
+    def test_init_config_should_be_singleton(self):
+        # override user configuration path, to path which don't exist
+        with mock.patch("dmenu_hotkeys.config.USER_CONFIG_PATH",
+                        self.user_conf_path):
+            config1 = Config().get_config()
+            config2 = init_config()
         self.assertEqual(config1, config2)

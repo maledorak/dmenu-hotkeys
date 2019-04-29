@@ -19,7 +19,12 @@ class I3ConfigParser(BaseConfigParser):
         :param line: string
         :return: string
         """
-        return line.split(None)[1]
+        if not "bindsym" in line:
+            return ""
+        try:
+            return line.split(None)[1]
+        except IndexError:  # empty or wrong line
+            return ""
 
 
 class OpenBoxConfigParser(BaseConfigParser):
@@ -30,7 +35,12 @@ class OpenBoxConfigParser(BaseConfigParser):
         :param line: string
         :return: string
         """
-        return line.split("\"")[1]  # todo add xml parser
+        if not "keybind" in line:
+            return ""
+        try:
+            return line.split("\"")[1]  # todo add xml parser
+        except IndexError:  # empty or wrong line
+            return ""
 
 
 def get_parser(app_name):
