@@ -2,18 +2,9 @@ from dmenu_hotkeys.apps import get_app_entries
 from dmenu_hotkeys.config import get_config
 
 
-class HotKeys(object):
+class Feeder(object):
     """
-    Getting hotkeys info from your app config file.
-    If you want use this script you should:
-    1. Add the following comment line before your hotkey line which you
-    want to use in your app config
-    eg:
-    `i3 line: # %%hotkey: Some description of the following hotkey %%`
-    `openbox line: <--%%hotkey: Some description of the following hotkey %%-->`
-    2. Run this script with your app arg (i3 or openbox)
-    `./dmenu_hotkeys.py i3`
-    `./dmenu_hotkeys.py openbox`
+    Feeding class for dmenu
     """
 
     def __init__(self, app_name):

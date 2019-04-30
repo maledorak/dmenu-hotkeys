@@ -19,7 +19,7 @@ class I3ConfigParser(BaseConfigParser):
         :param line: string
         :return: string
         """
-        if not "bindsym" in line:
+        if "bindsym" not in line:
             return ""
         try:
             return line.split(None)[1]
@@ -35,7 +35,7 @@ class OpenBoxConfigParser(BaseConfigParser):
         :param line: string
         :return: string
         """
-        if not "keybind" in line:
+        if "keybind" not in line:
             return ""
         try:
             return line.split("\"")[1]  # todo add xml parser
