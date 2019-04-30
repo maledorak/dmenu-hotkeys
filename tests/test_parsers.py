@@ -15,22 +15,46 @@ class TestBaseConfigParser(unittest.TestCase):
 
 class TestI3ConfigParser(unittest.TestCase):
     def setUp(self):
-        self.line_with_tabs = "bind \tmod+a\t\t\texec some"
-        self.line_without_tabs = "bind mod+a exec some"
+        self.parser = I3ConfigParser()
 
-    def test_parse_hotkey(self):
-        parser = I3ConfigParser()
-        self.assertEqual(parser.parse_hotkey(self.line_with_tabs), 'mod+a')
-        self.assertEqual(parser.parse_hotkey(self.line_without_tabs), 'mod+a')
+    def test_parse_hotkey_when_all_ok(self):
+        line_with_tabs = "bindsym \tmod+a\t\t\texec some"
+        line_without_tabs = "bindsym mod+a exec some"
+        self.assertEqual(self.parser.parse_hotkey(line_with_tabs), 'mod+a')
+        self.assertEqual(self.parser.parse_hotkey(line_without_tabs), 'mod+a')
+
+    def test_parse_hotkey_when_wrong_tag(self):
+        wrong_line = 'band'
+        self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
+
+    def test_parse_hotkey_when_wrong_line(self):
+        wrong_line = "bindmod+aexecsome"
+        self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
+
+    def test_parse_hotkey_when_empty_line(self):
+        empty_line = ""
+        self.assertEqual(self.parser.parse_hotkey(empty_line), '')
 
 
 class TestOpenBoxConfigParser(unittest.TestCase):
     def setUp(self):
-        self.line = '<keybind key="A-F4">'
+        self.parser = OpenBoxConfigParser()
 
-    def test_parse_hotkey(self):
-        parser = OpenBoxConfigParser()
-        self.assertEqual(parser.parse_hotkey(self.line), "A-F4")
+    def test_parse_hotkey_when_all_ok(self):
+        line = '<keybind key="A-F4">'
+        self.assertEqual(self.parser.parse_hotkey(line), "A-F4")
+
+    def test_parse_hotkey_when_wrong_tag(self):
+        wrong_line = '<other_tag>'
+        self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
+
+    def test_parse_hotkey_when_empty_line(self):
+        empty_line = ""
+        self.assertEqual(self.parser.parse_hotkey(empty_line), '')
+
+    def test_parse_hotkey_when_wrong_line(self):
+        wrong_line = 'some'
+        self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
 
 
 class TestGetParserGenericTest(unittest.TestCase):

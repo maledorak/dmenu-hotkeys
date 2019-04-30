@@ -17,10 +17,10 @@ class Config(_Singleton('SingletonMeta', (object,), {})):
         cfg = ConfigParser()
         if arg_path and os.path.exists(arg_path):
             cfg.read(arg_path)
-        elif os.path.exists(USER_CONFIG_PATH):
-            cfg.read(USER_CONFIG_PATH)
         elif os.environ.get('DMENU_HOTKEYS_TEST_CONFIG'):
             cfg.read(TEST_CONFIG_PATH)
+        elif os.path.exists(USER_CONFIG_PATH):
+            cfg.read(USER_CONFIG_PATH)
         else:
             cfg.read(DMENU_HOTKEYS_CONFIG_PATH)
         self.cfg = cfg

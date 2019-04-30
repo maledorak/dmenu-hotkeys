@@ -1,3 +1,4 @@
+<!-- openbox config -->
 <keyboard>
     <!-- %%hotkey: Close container %% -->
     <keybind key="A-F4">

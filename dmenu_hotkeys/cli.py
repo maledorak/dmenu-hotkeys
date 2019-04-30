@@ -10,7 +10,7 @@ from dmenu_hotkeys.constants import (
     SUPPORTED_MENUS, SUPPORTED_APPS, DMENU_HOTKEYS_CONFIG_PATH,
     USER_CONFIG_PATH
 )
-from dmenu_hotkeys.hotkeys import HotKeys
+from dmenu_hotkeys.feeders import Feeder
 from dmenu_hotkeys.utils import is_installed
 
 if sys.version_info < (3, 5):
@@ -49,11 +49,11 @@ def install_validation(ctx, param, value):
               type=click.Path(exists=True, file_okay=True, dir_okay=False))
 def run(menu, app, config_path):
     config = init_config(config_path)
-    hot_keys = HotKeys(app)
+    hot_keys_entries = Feeder(app).run()
 
     # subprocess piping was created based on:
     # https://stackoverflow.com/a/4846923
-    echo = Popen(["echo", hot_keys.output], stdout=PIPE)
+    echo = Popen(["echo", hot_keys_entries], stdout=PIPE)
     menu_command = config.get("MENU_COMMAND", menu).split()
     call(menu_command, stdin=echo.stdout)
     echo.stdout.close()
