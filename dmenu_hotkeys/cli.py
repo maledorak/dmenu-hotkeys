@@ -49,11 +49,11 @@ def install_validation(ctx, param, value):
               type=click.Path(exists=True, file_okay=True, dir_okay=False))
 def run(menu, app, config_path):
     config = init_config(config_path)
-    hot_keys = HotKeys(app)
+    hot_keys_entries = HotKeys(app).run()
 
     # subprocess piping was created based on:
     # https://stackoverflow.com/a/4846923
-    echo = Popen(["echo", hot_keys.output], stdout=PIPE)
+    echo = Popen(["echo", hot_keys_entries], stdout=PIPE)
     menu_command = config.get("MENU_COMMAND", menu).split()
     call(menu_command, stdin=echo.stdout)
     echo.stdout.close()
