@@ -20,7 +20,8 @@ requirements = [
 setup_requirements = [ ]
 
 test_requirements = [
-    "mock"
+    "mock",
+    "coverage"
 ]
 
 setup(

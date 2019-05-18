@@ -1,0 +1,23 @@
+[run]
+# "branch" is option to tracing 'if statements' in code
+branch = true
+
+# "concurrency" tell coverage in what way python process will be run
+concurrency = thread
+
+# "source" which files coverage will be trace
+source = dmenu_hotkeys
+
+# "omit" which files coverage not will be trace
+omit =
+    */__init__.py
+    */test*.py
+    tests/utils.py
+
+[report]
+# "ignore_errors"  ignore source code that can't be found, emitting a warning instead of an exception.
+ignore_errors = true
+
+[html]
+# "output" where to write the XML report.
+directory = htmlcov
