@@ -9,6 +9,9 @@ dmenu-hotkeys
 .. image:: https://img.shields.io/travis/maledorak/dmenu-hotkeys.svg
         :target: https://travis-ci.org/maledorak/dmenu-hotkeys
 
+.. image:: https://codecov.io/github/maledorak/dmenu-hotkeys/coverage.svg?branch=master
+        :target: https://codecov.io/github/maledorak/dmenu-hotkeys
+
 .. image:: https://readthedocs.org/projects/dmenu-hotkeys/badge/?version=latest
         :target: https://dmenu-hotkeys.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
