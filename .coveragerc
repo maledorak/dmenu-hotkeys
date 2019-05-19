@@ -11,8 +11,6 @@ source = dmenu_hotkeys
 # "omit" which files coverage not will be trace
 omit =
     */__init__.py
-    */test*.py
-    tests/utils.py
 
 [report]
 # "ignore_errors"  ignore source code that can't be found, emitting a warning instead of an exception.

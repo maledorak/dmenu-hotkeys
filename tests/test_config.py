@@ -33,12 +33,30 @@ class TestConfig(TempDirTestCase):
             config2 = Config()
         self.assertEqual(config1, config2)
 
-    def test_get_config_when_arg_path_was_passed(self):
-        tested_config = Config(arg_path=TEST_CONFIG_PATH).get_config()
+    def test_init_config_when_config_path_was_passed(self):
+        tested_config = Config(config_path=TEST_CONFIG_PATH).get_config()
         cfg = ConfigParser()
         cfg.read(TEST_CONFIG_PATH)
         expected_arg_path_conf = cfg._sections
         self.assertDictEqual(tested_config._sections, expected_arg_path_conf)
+
+    def test_set_config_with_cli_kwargs(self):
+        conf_without_cli_kwargs = Config(config_path=TEST_CONFIG_PATH).get_config()
+        self.assertEqual(conf_without_cli_kwargs.getboolean('OTHERS', 'dots'), False)
+        self.assertEqual(conf_without_cli_kwargs.getint('OTHERS', 'additional_dots'), 10)
+        Config._clean_singleton()  # clean singleton
+
+        conf_with_cli_kwargs = Config(
+            config_path=TEST_CONFIG_PATH,
+            dots=True,
+            additional_dots=5).get_config()
+        unnecessary_args = 2
+        self.assertEqual(
+            Config.set_config.__code__.co_argcount - unnecessary_args, 2,
+            msg="Added more kwargs to Config.set_config, correct this test!")
+        self.assertEqual(conf_with_cli_kwargs.getboolean('OTHERS', 'dots'), True)
+        self.assertEqual(conf_with_cli_kwargs.getint('OTHERS', 'additional_dots'), 5)
+
 
     def test_get_config_when_user_home_config_not_exists(self):
         self.assertFalse(os.path.exists(self.user_conf_path))
