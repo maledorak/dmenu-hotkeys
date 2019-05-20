@@ -1,9 +1,8 @@
-=======
 History
 =======
 
 Unreleased
-------------------
+----------
 * Added dots enabling in config.cfg
 * Added coverage
 * Added config as a singleton.
