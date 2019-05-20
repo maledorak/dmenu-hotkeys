@@ -10,6 +10,9 @@ class Feeder(object):
     def __init__(self, app_name):
         self.app_name = app_name
         self.config = get_config()
+        self.is_dots = bool(self.config.getboolean("OTHERS", "dots"))
+        self.additional_dots = int(self.config.get(
+            "OTHERS", "additional_dots"))
 
     def format_entries(self, entries):
         """
@@ -21,10 +24,17 @@ class Feeder(object):
         if not entries:
             return ""
 
-        longest_hotkey = max(set(len(entry[0]) for entry in entries))
-        dots_length = longest_hotkey + int(
-            self.config.get("OTHERS", "additional_dots"))
         output = list()
+        if not self.is_dots:
+            for hotkey, info in entries:
+                output.append("{hotkey}: {info}".format(
+                    hotkey=hotkey,
+                    info=info
+                ))
+            return "\n".join(output)
+
+        longest_hotkey = max(set(len(entry[0]) for entry in entries))
+        dots_length = longest_hotkey + self.additional_dots
         for hotkey, info in entries:
             output.append("{hotkey} {dots} {info}".format(
                 hotkey=hotkey,

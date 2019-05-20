@@ -47,8 +47,10 @@ def install_validation(ctx, param, value):
               required=True, type=click.Choice(SUPPORTED_APPS))
 @click.option("-cp", "--config-path", required=False,
               type=click.Path(exists=True, file_okay=True, dir_okay=False))
-def run(menu, app, config_path):
-    config = init_config(config_path)
+@click.option("-d", "--dots", required=False, type=click.BOOL)
+@click.option("-ad", "--additional-dots", required=False, type=click.INT)
+def run(menu, app, **cli_kwargs):
+    config = init_config(**cli_kwargs)
     hot_keys_entries = Feeder(app).run()
 
     # subprocess piping was created based on:
