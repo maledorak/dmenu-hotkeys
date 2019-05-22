@@ -21,6 +21,7 @@ Supported
 * [rofi](https://github.com/davatorium/rofi)
 
 ### Apps
+* [bspwm](https://github.com/baskerville/bspwm)
 * [i3](https://i3wm.org/)
 * [openbox](http://openbox.org/wiki/Main_Page)
 
@@ -69,13 +70,14 @@ How to use
     eg:
 
     * i3: `# %%hotkey: Some description of the following hotkey %%`
+    * bspwm: `# %%hotkey: Some description of the following hotkey %%`
     * openbox: `<-- %%hotkey: Some description of the following hotkey %% -->`
     
     Notice: For full configuration file examples check [test/fixtures](./tests/fixtures) directory
 
 2. Run the dmenu-hotkeys
     ```
-    dmenu_hotkeys run --menu [dmenu|rofi] --app [i3|openbox]
+    dmenu_hotkeys run --menu [dmenu|rofi] --app [bspwm|i3|openbox]
     ```
     
 3. Check help if you want to know more

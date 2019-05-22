@@ -2,7 +2,8 @@ import unittest
 
 from dmenu_hotkeys.constants import PARSERS
 from dmenu_hotkeys.parsers import (
-    BaseConfigParser, I3ConfigParser, OpenBoxConfigParser, get_parser
+    BaseConfigParser, I3ConfigParser, OpenBoxConfigParser, get_parser,
+    BspwmConfigParser
 )
 
 
@@ -11,6 +12,31 @@ class TestBaseConfigParser(unittest.TestCase):
         parser = BaseConfigParser()
         with self.assertRaises(NotImplementedError):
             parser.parse_hotkey('string')
+
+
+class TestBspwmConfigParser(unittest.TestCase):
+    def setUp(self):
+        self.parser = BspwmConfigParser()
+
+    def test_parse_hotkey_when_all_ok(self):
+        line_without_tabs = "alt + F4"
+        line_with_tabs = "super + alt +\tEscape"
+        line_with_next_line = "\nsuper + apostrophe\n"
+        self.assertEqual(self.parser.parse_hotkey(line_without_tabs), 'alt + F4')
+        self.assertEqual(self.parser.parse_hotkey(line_with_tabs), 'super + alt + Escape')
+        self.assertEqual(self.parser.parse_hotkey(line_with_next_line), 'super + apostrophe')
+
+    # def test_parse_hotkey_when_wrong_tag(self):
+    #     wrong_line = 'band'
+    #     self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
+
+    # def test_parse_hotkey_when_wrong_line(self):
+    #     wrong_line = "bindmod+aexecsome"
+    #     self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
+
+    # def test_parse_hotkey_when_empty_line(self):
+    #     empty_line = ""
+    #     self.assertEqual(self.parser.parse_hotkey(empty_line), '')
 
 
 class TestI3ConfigParser(unittest.TestCase):

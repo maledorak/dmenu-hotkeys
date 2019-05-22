@@ -1,6 +1,6 @@
 include AUTHORS.md
 include CONTRIBUTING.md
-include HISTORY.md
+include CHANGELOG.md
 include LICENSE
 include README.md
 include dmenu_hotkeys/config.cfg

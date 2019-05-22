@@ -48,6 +48,3 @@ def init_config(**cli_kwargs):
 
 def get_config():
     return Config().get_config()
-
-# todo update README
-# todo release new version

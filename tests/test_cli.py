@@ -103,7 +103,7 @@ class TestRunCommandAndCheckRequiredOptionWhenInstallNotValidated(unittest.TestC
             run, catch_exceptions=False, args=["--menu", DMENU, "--app", I3])
         self.assertEqual(result.exit_code, 2)
         expected_output_1 = 'Error: "i3" is not installed in your system or don\'t exists in PATH'
-        expected_output_2 = 'Install one of supported: [\'i3\', \'openbox\']'
+        expected_output_2 = 'Install one of supported: [\'bspwm\', \'i3\', \'openbox\']'
         self.assertIn(expected_output_1, result.output)
         self.assertIn(expected_output_2, result.output)
 
