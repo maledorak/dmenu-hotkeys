@@ -5,10 +5,10 @@
 
 from setuptools import setup, find_packages
 
-with open('README.md') as readme_file:
+with open('README.md', encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
-with open('CHANGELOG.md') as changelog_file:
+with open('CHANGELOG.md', encoding='utf-8') as changelog_file:
     changelog = changelog_file.read()
 
 requirements = [

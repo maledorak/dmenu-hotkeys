@@ -1,7 +1,7 @@
 dmenu-hotkeys
 =============
 [![pypi](https://img.shields.io/pypi/v/dmenu_hotkeys.svg)](https://pypi.python.org/pypi/dmenu_hotkeys)
-[![travis](https://img.shields.io/travis/maledorak/dmenu-hotkeys.svg)](https://travis-ci.org/maledorak/dmenu-hotkeys)
+[![travis](https://travis-ci.org/maledorak/dmenu-hotkeys.svg?branch=master)](https://travis-ci.org/maledorak/dmenu-hotkeys)
 [![codecov](https://codecov.io/gh/maledorak/dmenu-hotkeys/branch/master/graph/badge.svg)](https://codecov.io/gh/maledorak/dmenu-hotkeys)
 [![docs](https://readthedocs.org/projects/dmenu-hotkeys/badge/?version=latest)](https://dmenu-hotkeys.readthedocs.io/en/latest/?badge=latest)
 
@@ -69,8 +69,8 @@ How to use
 
     eg:
 
-    * i3: `# %%hotkey: Some description of the following hotkey %%`
     * bspwm: `# %%hotkey: Some description of the following hotkey %%`
+    * i3: `# %%hotkey: Some description of the following hotkey %%`
     * openbox: `<-- %%hotkey: Some description of the following hotkey %% -->`
     
     Notice: For full configuration file examples check [test/fixtures](./tests/fixtures) directory
