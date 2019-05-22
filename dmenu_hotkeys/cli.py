@@ -5,6 +5,7 @@ from subprocess import Popen, PIPE, call
 
 import click
 
+from dmenu_hotkeys import __version__
 from dmenu_hotkeys.config import init_config
 from dmenu_hotkeys.constants import (
     SUPPORTED_MENUS, SUPPORTED_APPS, DMENU_HOTKEYS_CONFIG_PATH,
@@ -77,8 +78,14 @@ def copy_config(dest=None):
         shutil.copy(src, dest)
 
 
+@click.command(help="Show dmenu_hotkeys version")
+def version():
+    click.echo(__version__)
+
+
 main.add_command(copy_config)
 main.add_command(run)
+main.add_command(version)
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover

@@ -6,7 +6,8 @@ import unittest
 
 from click.testing import CliRunner
 
-from dmenu_hotkeys.cli import run, copy_config, main
+from dmenu_hotkeys import __version__
+from dmenu_hotkeys.cli import run, copy_config, version, main
 from dmenu_hotkeys.constants import (
     DMENU, I3, DMENU_HOTKEYS_CONFIG_PATH, TEST_CONFIG_PATH
 )
@@ -36,7 +37,7 @@ class TestCheckCommandsOptionsAndArgumentsCount(unittest.TestCase):
         output = list(filter(None, output.split("\n")))
         unnecessary_lines = 1
         self.assertEqual(
-            len(output) - unnecessary_lines, 2,
+            len(output) - unnecessary_lines, 3,
             msg="You add new command, you should add tests also!")
 
 
@@ -228,3 +229,13 @@ class TestCopyConfigCommand(TempDirTestCase):
         self.assertEqual(result.exit_code, 2)
         expected_output = 'Config already exists in {}'.format(self.dest)
         self.assertIn(expected_output, result.output)
+
+
+class TestVersionCommand(unittest.TestCase):
+    def setUp(self):
+        self.runner = CliRunner()
+
+    def test_version(self):
+        result = self.runner.invoke(version, catch_exceptions=False)
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(__version__, result.output)

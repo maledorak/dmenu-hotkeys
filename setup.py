@@ -8,8 +8,8 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.md') as history_file:
-    history = history_file.read()
+with open('CHANGELOG.md') as changelog_file:
+    changelog = changelog_file.read()
 
 requirements = [
     'Click>=7.0',
@@ -49,14 +49,15 @@ setup(
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
     install_requires=requirements,
     license="MIT license",
-    long_description=readme + '\n\n' + history,
+    long_description=readme + '\n\n' + changelog,
+    long_description_content_type='text/markdown',
     include_package_data=True,
     keywords='dmenu_hotkeys',
     name='dmenu_hotkeys',
     packages=find_packages(include=['dmenu_hotkeys']),
     setup_requires=setup_requirements,
     tests_require=test_requirements,
-    url='https://github.com/maledorak/dmenu_hotkeys',
+    url='https://github.com/maledorak/dmenu-hotkeys',
     version='1.1.0',
     zip_safe=False,
 )
