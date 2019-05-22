@@ -1,8 +1,13 @@
-History
-=======
+Changelog
+=========
+
 
 Unreleased
 ----------
+* Add version command
+
+1.1.0 (2019-05-22)
+------------------
 * Added dots enabling in config.cfg
 * Added coverage
 * Added config as a singleton.
