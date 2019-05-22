@@ -57,6 +57,6 @@ setup(
     setup_requires=setup_requirements,
     tests_require=test_requirements,
     url='https://github.com/maledorak/dmenu_hotkeys',
-    version='1.0.2',
+    version='1.1.0',
     zip_safe=False,
 )
