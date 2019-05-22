@@ -1,0 +1,13 @@
+# bspwm config hotkeys
+
+# %%hotkey: Exit bspwm %%
+super + alt + Escape
+	$BSPWM_CONFIG/scripts/dmenu-logout
+
+# %%hotkey: Close window %%
+alt + F4
+	bspc node --close
+
+# %%hotkey: Swap window with last window %%
+super + apostrophe
+    bspc node --swap last

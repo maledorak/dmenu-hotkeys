@@ -11,6 +11,17 @@ class BaseConfigParser(object):
         raise NotImplementedError
 
 
+class BspwmConfigParser(BaseConfigParser):
+    def parse_hotkey(self, line):
+        """
+        Parsing hotkey from line like following:
+        `super + equal`
+        :param line: string
+        :return: string
+        """
+        return " ".join(line.split(None))
+
+
 class I3ConfigParser(BaseConfigParser):
     def parse_hotkey(self, line):
         """

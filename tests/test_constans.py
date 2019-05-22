@@ -14,10 +14,10 @@ class TestConstants(TempDirTestCase):
         self.assertEqual(len(constants.SUPPORTED_MENUS), 2)
 
     def test_supported_apps(self):
-        self.assertEqual(len(constants.SUPPORTED_APPS), 2)
+        self.assertEqual(len(constants.SUPPORTED_APPS), 3)
 
     def test_supported_parsers(self):
-        self.assertEqual(len(constants.PARSERS), 2)
+        self.assertEqual(len(constants.PARSERS), 3)
 
     def test_check_path_DMENU_HOTKEYS_DIR(self):
         expected = os.path.join(os.path.dirname(os.path.dirname(__file__)),
