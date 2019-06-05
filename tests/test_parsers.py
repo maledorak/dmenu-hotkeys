@@ -26,17 +26,9 @@ class TestBspwmConfigParser(unittest.TestCase):
         self.assertEqual(self.parser.parse_hotkey(line_with_tabs), 'super + alt + Escape')
         self.assertEqual(self.parser.parse_hotkey(line_with_next_line), 'super + apostrophe')
 
-    # def test_parse_hotkey_when_wrong_tag(self):
-    #     wrong_line = 'band'
-    #     self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
-
-    # def test_parse_hotkey_when_wrong_line(self):
-    #     wrong_line = "bindmod+aexecsome"
-    #     self.assertEqual(self.parser.parse_hotkey(wrong_line), '')
-
-    # def test_parse_hotkey_when_empty_line(self):
-    #     empty_line = ""
-    #     self.assertEqual(self.parser.parse_hotkey(empty_line), '')
+    def test_parse_hotkey_when_empty_line(self):
+        empty_line = ""
+        self.assertEqual(self.parser.parse_hotkey(empty_line), '')
 
 
 class TestI3ConfigParser(unittest.TestCase):

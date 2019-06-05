@@ -17,7 +17,7 @@ class App(object):
         :return: string
         """
         path = os.path.expandvars(self.config.get("APP_CONF_PATHS", self.name))
-        with open(path, "r") as file_:
+        with open(path, "r", encoding='utf-8') as file_:
             content = file_.read()
         return content
 

@@ -74,7 +74,7 @@ class TestConfig(TempDirTestCase):
         cfg = ConfigParser()
         cfg.read(DMENU_HOTKEYS_CONFIG_PATH)
         cfg.remove_section('OTHERS')
-        with open(self.user_conf_path, 'w') as configfile:
+        with open(self.user_conf_path, 'w', encoding='utf-8') as configfile:
             cfg.write(configfile)
         self.assertTrue(os.path.exists(self.user_conf_path))
 
