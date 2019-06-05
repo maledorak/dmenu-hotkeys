@@ -21,6 +21,7 @@ Supported
 * [rofi](https://github.com/davatorium/rofi)
 
 ### Apps
+* [awesome](https://awesomewm.org/)
 * [bspwm](https://github.com/baskerville/bspwm)
 * [i3](https://i3wm.org/)
 * [openbox](http://openbox.org/wiki/Main_Page)
@@ -68,7 +69,7 @@ How to use
 1. Add the following comment line before hotkey line which you want to use in your app config file.
 
     eg:
-
+    * awesome: `-- %%hotkey: Some description of the following hotkey %%`
     * bspwm: `# %%hotkey: Some description of the following hotkey %%`
     * i3: `# %%hotkey: Some description of the following hotkey %%`
     * openbox: `<-- %%hotkey: Some description of the following hotkey %% -->`

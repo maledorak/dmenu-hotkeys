@@ -3,6 +3,7 @@ Changelog
 
 Unreleased
 ----------
+* Added awesome support
 
 1.1.1 (2019-06-05)
 ----------

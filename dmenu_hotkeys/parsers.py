@@ -11,6 +11,17 @@ class BaseConfigParser(object):
         raise NotImplementedError
 
 
+class AwesomeConfigParser(BaseConfigParser):
+    def parse_hotkey(self, line):
+        """
+        Parsing hotkey from line like following:
+        `awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),`
+        :param line: string
+        :return: string
+        """
+        return " ".join(line.split(None))
+
+
 class BspwmConfigParser(BaseConfigParser):
     def parse_hotkey(self, line):
         """

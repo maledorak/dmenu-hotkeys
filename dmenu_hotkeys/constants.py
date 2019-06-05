@@ -4,12 +4,19 @@ DMENU = "dmenu"
 ROFI = "rofi"
 SUPPORTED_MENUS = [DMENU, ROFI]
 
+AWESOME = 'awesome'
 BSPWM = 'bspwm'
 I3 = 'i3'
 OPENBOX = 'openbox'
-SUPPORTED_APPS = [BSPWM, I3, OPENBOX]
+SUPPORTED_APPS = [
+    AWESOME,
+    BSPWM,
+    I3,
+    OPENBOX
+]
 
 PARSERS = {
+    AWESOME: "AwesomeConfigParser",
     BSPWM: "BspwmConfigParser",
     I3: "I3ConfigParser",
     OPENBOX: "OpenBoxConfigParser"
