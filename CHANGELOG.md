@@ -1,11 +1,13 @@
 Changelog
 =========
 
-
 Unreleased
 ----------
+
+1.1.1 (2019-06-05)
+----------
 * Added bspwm support
-* Added version command
+* Added version checking command
 
 1.1.0 (2019-05-22)
 ------------------
